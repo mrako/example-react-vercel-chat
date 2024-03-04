@@ -3,8 +3,14 @@ import { Server } from "socket.io";
 import http from 'http';
 
 const app = express();
+
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "*", // Adjust according to your needs
+    methods: ["GET", "POST"]
+  }
+});
 
 // Mock KV storage object
 let roomsMessages: { [key: string]: string[] } = {};
@@ -30,5 +36,5 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
